@@ -1,228 +1,877 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Cloud Drive</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Angelin Cloud Drive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-<style>
-body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
 
-/* Main Card */
-.container {
-    backdrop-filter: blur(15px);
-    background: rgba(255,255,255,0.15);
-    border-radius: 20px;
-    padding: 30px;
-    width: 480px;
-    color: white;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-    text-align: center;
-}
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(0, 255, 200, 0.18), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(124, 58, 237, 0.28), transparent 28%),
+        linear-gradient(135deg, #06131f 0%, #0b1f3a 45%, #140f2d 100%);
+      color: #ffffff;
+      overflow-x: hidden;
+      position: relative;
+    }
 
-/* Title */
-h1 {
-    margin-bottom: 20px;
-}
+    .bg-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.45;
+      z-index: 0;
+      pointer-events: none;
+    }
 
-/* Drop Area */
-.drop-area {
-    border: 2px dashed white;
-    padding: 25px;
-    border-radius: 10px;
-    margin-bottom: 15px;
-    cursor: pointer;
-}
+    .orb1 {
+      width: 260px;
+      height: 260px;
+      background: #00d4ff;
+      top: 70px;
+      left: 60px;
+    }
 
-/* File Input Center */
-.file-input {
-    display: flex;
-    justify-content: center;
-    margin: 10px 0;
-}
+    .orb2 {
+      width: 300px;
+      height: 300px;
+      background: #8b5cf6;
+      right: 80px;
+      top: 120px;
+    }
 
-/* Button Group */
-.btn-group {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin: 15px 0;
-}
+    .orb3 {
+      width: 240px;
+      height: 240px;
+      background: #22c55e;
+      left: 40%;
+      bottom: 40px;
+    }
 
-/* Buttons */
-button {
-    padding: 10px 18px;
-    border: none;
-    border-radius: 8px;
-    background: #00c6ff;
-    color: white;
-    cursor: pointer;
-    transition: 0.3s;
-}
+    .page {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1450px;
+      margin: 0 auto;
+      padding: 34px;
+    }
 
-button:hover {
-    background: #0072ff;
-}
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
 
-/* Progress */
-.progress {
-    width: 100%;
-    height: 10px;
-    background: rgba(255,255,255,0.3);
-    border-radius: 5px;
-    overflow: hidden;
-    margin-top: 10px;
-}
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
 
-.progress-bar {
-    height: 100%;
-    width: 0%;
-    background: #00ff9f;
-}
+    .brand-icon {
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.24), rgba(255,255,255,0.08));
+      border: 1px solid rgba(255,255,255,0.14);
+      box-shadow: 0 10px 35px rgba(0,0,0,0.25);
+      backdrop-filter: blur(10px);
+    }
 
-/* File Cards */
-#files {
-    margin-top: 15px;
-}
+    .brand-text h1 {
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+    }
 
-.file-card {
-    background: rgba(255,255,255,0.2);
-    padding: 10px;
-    border-radius: 10px;
-    margin-bottom: 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+    .brand-text p {
+      color: rgba(255,255,255,0.72);
+      margin-top: 6px;
+      font-size: 14px;
+    }
 
-.file-card button {
-    background: red;
-}
-</style>
+    .top-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
 
+    .pill-btn {
+      border: none;
+      padding: 13px 20px;
+      border-radius: 14px;
+      cursor: pointer;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      transition: 0.3s ease;
+    }
+
+    .primary-btn {
+      background: linear-gradient(135deg, #00c2ff, #3b82f6);
+      box-shadow: 0 10px 24px rgba(59, 130, 246, 0.35);
+    }
+
+    .secondary-btn {
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(10px);
+    }
+
+    .pill-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 26px;
+      margin-bottom: 26px;
+    }
+
+    .glass-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.14), rgba(255,255,255,0.07));
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 28px;
+      backdrop-filter: blur(18px);
+      box-shadow: 0 20px 45px rgba(0,0,0,0.28);
+    }
+
+    .upload-panel {
+      padding: 30px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mini-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.10);
+      color: #dbeafe;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 18px;
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .upload-panel h2 {
+      font-size: 38px;
+      line-height: 1.15;
+      margin-bottom: 14px;
+      font-weight: 800;
+      max-width: 620px;
+    }
+
+    .upload-panel h2 span {
+      background: linear-gradient(90deg, #67e8f9, #c4b5fd);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .upload-panel p {
+      color: rgba(255,255,255,0.76);
+      line-height: 1.8;
+      font-size: 15px;
+      max-width: 650px;
+      margin-bottom: 26px;
+    }
+
+    .feature-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 26px;
+    }
+
+    .feature-chip {
+      padding: 12px 16px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.09);
+      border: 1px solid rgba(255,255,255,0.10);
+      color: #eef2ff;
+      font-size: 13px;
+    }
+
+    .upload-box {
+      background: rgba(7, 16, 33, 0.42);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 24px;
+      padding: 24px;
+    }
+
+    .drop-area {
+      border: 2px dashed rgba(255,255,255,0.35);
+      border-radius: 22px;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 24px;
+      cursor: pointer;
+      transition: 0.35s ease;
+      background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03));
+    }
+
+    .drop-area:hover {
+      transform: translateY(-2px);
+      border-color: #67e8f9;
+      background: linear-gradient(135deg, rgba(103,232,249,0.10), rgba(196,181,253,0.06));
+    }
+
+    .drop-icon {
+      font-size: 46px;
+      margin-bottom: 14px;
+    }
+
+    .drop-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .drop-subtitle {
+      font-size: 14px;
+      color: rgba(255,255,255,0.72);
+      margin-bottom: 12px;
+    }
+
+    .selected-file {
+      margin-top: 12px;
+      font-size: 14px;
+      color: #a5f3fc;
+      word-break: break-word;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .custom-file {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 13px 18px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.10);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      min-width: 160px;
+      transition: 0.3s ease;
+    }
+
+    .custom-file:hover {
+      background: rgba(255,255,255,0.16);
+    }
+
+    .custom-file input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .file-name-text {
+      font-size: 14px;
+      color: rgba(255,255,255,0.76);
+      flex: 1;
+      min-width: 180px;
+      word-break: break-word;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .action-button {
+      border: none;
+      border-radius: 16px;
+      padding: 14px 22px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.3s ease;
+      color: white;
+    }
+
+    .upload-btn {
+      background: linear-gradient(135deg, #06b6d4, #3b82f6);
+      box-shadow: 0 12px 24px rgba(59,130,246,0.30);
+    }
+
+    .refresh-btn {
+      background: linear-gradient(135deg, #8b5cf6, #ec4899);
+      box-shadow: 0 12px 24px rgba(236,72,153,0.24);
+    }
+
+    .action-button:hover {
+      transform: translateY(-2px) scale(1.01);
+    }
+
+    .progress-wrap {
+      margin-top: 22px;
+    }
+
+    .progress-top {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: rgba(255,255,255,0.76);
+      margin-bottom: 10px;
+    }
+
+    .progress {
+      width: 100%;
+      height: 14px;
+      background: rgba(255,255,255,0.10);
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #22d3ee, #3b82f6, #8b5cf6);
+      transition: width 0.3s ease;
+    }
+
+    .right-panel {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .small-card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 22px;
+      padding: 22px;
+    }
+
+    .small-card h3 {
+      font-size: 18px;
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .stat-box {
+      background: rgba(255,255,255,0.07);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .stat-box .label {
+      color: rgba(255,255,255,0.70);
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .stat-box .value {
+      font-size: 26px;
+      font-weight: 800;
+    }
+
+    .storage-item {
+      margin-bottom: 16px;
+    }
+
+    .storage-head {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .bar {
+      width: 100%;
+      height: 10px;
+      background: rgba(255,255,255,0.10);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .fill {
+      height: 100%;
+      border-radius: 999px;
+    }
+
+    .fill1 { width: 74%; background: linear-gradient(90deg, #06b6d4, #3b82f6); }
+    .fill2 { width: 51%; background: linear-gradient(90deg, #22c55e, #14b8a6); }
+    .fill3 { width: 88%; background: linear-gradient(90deg, #f59e0b, #ef4444); }
+
+    .library-card {
+      padding: 26px;
+    }
+
+    .library-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .library-header h2 {
+      font-size: 28px;
+      font-weight: 800;
+    }
+
+    .library-header p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.72);
+      margin-top: 4px;
+    }
+
+    #files {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .file-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.05));
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 22px;
+      padding: 18px;
+      transition: 0.3s ease;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.15);
+    }
+
+    .file-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(103,232,249,0.36);
+    }
+
+    .file-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 14px;
+      background: linear-gradient(135deg, rgba(103,232,249,0.18), rgba(139,92,246,0.18));
+    }
+
+    .file-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      word-break: break-word;
+    }
+
+    .file-meta {
+      font-size: 13px;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 14px;
+    }
+
+    .file-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .mini-btn {
+      flex: 1;
+      min-width: 90px;
+      border: none;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      color: white;
+      transition: 0.3s ease;
+    }
+
+    .download-btn {
+      background: linear-gradient(135deg, #10b981, #14b8a6);
+    }
+
+    .delete-btn {
+      background: linear-gradient(135deg, #ef4444, #ec4899);
+    }
+
+    .mini-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 36px 20px;
+      color: rgba(255,255,255,0.72);
+      background: rgba(255,255,255,0.05);
+      border-radius: 20px;
+      border: 1px dashed rgba(255,255,255,0.12);
+    }
+
+    @media (max-width: 1100px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .page {
+        padding: 18px;
+      }
+
+      .brand-text h1 {
+        font-size: 26px;
+      }
+
+      .upload-panel h2 {
+        font-size: 28px;
+      }
+
+      .library-header h2 {
+        font-size: 22px;
+      }
+
+      .stat-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="bg-orb orb1"></div>
+  <div class="bg-orb orb2"></div>
+  <div class="bg-orb orb3"></div>
 
-<div class="container">
+  <div class="page">
 
-<h1>☁️ Angelin Cloud Drive</h1>
-
-<div class="drop-area" id="drop">
-    Drag & Drop File Here
-</div>
-
-<div class="file-input">
-    <input type="file" id="file">
-</div>
-
-<div class="btn-group">
-    <button onclick="upload()">Upload</button>
-    <button onclick="loadFiles()">Refresh</button>
-</div>
-
-<div class="progress">
-    <div class="progress-bar" id="bar"></div>
-</div>
-
-<div id="files"></div>
-
-</div>
-
-<script>
-
-let selectedFile = null
-
-const drop = document.getElementById("drop")
-
-drop.addEventListener("dragover", e=>{
-    e.preventDefault()
-    drop.style.background = "rgba(255,255,255,0.3)"
-})
-
-drop.addEventListener("dragleave", ()=>{
-    drop.style.background = "transparent"
-})
-
-drop.addEventListener("drop", e=>{
-    e.preventDefault()
-    selectedFile = e.dataTransfer.files[0]
-    drop.innerHTML = selectedFile.name
-})
-
-document.getElementById("file").addEventListener("change", function(){
-    selectedFile = this.files[0]
-})
-
-function upload(){
-
-if(!selectedFile){
-    alert("Select file first!")
-    return
-}
-
-const formData = new FormData()
-formData.append("file", selectedFile)
-
-const xhr = new XMLHttpRequest()
-
-xhr.open("POST", "http://localhost:3000/upload")
-
-xhr.upload.onprogress = function(e){
-    const percent = (e.loaded / e.total) * 100
-    document.getElementById("bar").style.width = percent + "%"
-}
-
-xhr.onload = function(){
-    alert("✅ Uploaded!")
-    loadFiles()
-}
-
-xhr.send(formData)
-
-}
-
-async function loadFiles(){
-
-const res = await fetch("http://localhost:3000/files")
-const data = await res.json()
-
-const div = document.getElementById("files")
-div.innerHTML = ""
-
-data.forEach(f=>{
-    div.innerHTML += `
-    <div class="file-card">
-        <span>${f.Key}</span>
-        <div>
-            <button onclick="download('${f.Key}')">⬇</button>
-            <button onclick="deleteFile('${f.Key}')">❌</button>
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-icon">☁</div>
+        <div class="brand-text">
+          <h1>Angelin Cloud Drive</h1>
+          <p>Smart storage dashboard for secure upload, access, and management</p>
         </div>
+      </div>
+
+      <div class="top-actions">
+        <button class="pill-btn secondary-btn" onclick="loadFiles()">Sync Library</button>
+        <button class="pill-btn primary-btn" onclick="upload()">Quick Upload</button>
+      </div>
     </div>
-    `
-})
 
-}
+    <div class="hero-grid">
+      <div class="glass-card upload-panel">
+        <div class="mini-badge">⚡ Secure • Fast • Elegant</div>
+        <h2>Upload your files into a <span>beautiful cloud workspace</span></h2>
+        <p>
+          Drag and drop documents, media, and project files into your personal cloud drive.
+          Manage everything in one premium dashboard with a cleaner, smarter experience.
+        </p>
 
-async function download(key){
-const res = await fetch(`http://localhost:3000/download/${key}`)
-const url = await res.text()
-window.open(url)
-}
+        <div class="feature-row">
+          <div class="feature-chip">Encrypted Upload</div>
+          <div class="feature-chip">Instant Access</div>
+          <div class="feature-chip">Clean File Library</div>
+          <div class="feature-chip">Cloud Sync Ready</div>
+        </div>
 
-async function deleteFile(key){
-await fetch(`http://localhost:3000/delete/${key}`,{method:"DELETE"})
-loadFiles()
-}
+        <div class="upload-box">
+          <div class="drop-area" id="drop">
+            <div class="drop-icon">⬆</div>
+            <div class="drop-title">Drag & Drop Your File</div>
+            <div class="drop-subtitle">or choose a file manually from your device</div>
+            <div class="selected-file" id="selectedFileText">No file selected</div>
+          </div>
 
-</script>
+          <div class="input-row">
+            <label class="custom-file">
+              Choose File
+              <input type="file" id="file">
+            </label>
+            <div class="file-name-text" id="fileNameText">Waiting for file selection...</div>
+          </div>
 
+          <div class="button-row">
+            <button class="action-button upload-btn" onclick="upload()">Upload File</button>
+            <button class="action-button refresh-btn" onclick="loadFiles()">Refresh Library</button>
+          </div>
+
+          <div class="progress-wrap">
+            <div class="progress-top">
+              <span>Upload Progress</span>
+              <span id="progressPercent">0%</span>
+            </div>
+            <div class="progress">
+              <div class="progress-bar" id="bar"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass-card right-panel">
+        <div class="small-card">
+          <h3>Drive Insights</h3>
+          <div class="stat-grid">
+            <div class="stat-box">
+              <div class="label">Files Stored</div>
+              <div class="value" id="totalFiles">0</div>
+            </div>
+            <div class="stat-box">
+              <div class="label">Live Status</div>
+              <div class="value">ON</div>
+            </div>
+            <div class="stat-box">
+              <div class="label">Sync Mode</div>
+              <div class="value">Auto</div>
+            </div>
+            <div class="stat-box">
+              <div class="label">Security</div>
+              <div class="value">99%</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="small-card">
+          <h3>Storage Activity</h3>
+
+          <div class="storage-item">
+            <div class="storage-head">
+              <span>Documents</span>
+              <span>74%</span>
+            </div>
+            <div class="bar"><div class="fill fill1"></div></div>
+          </div>
+
+          <div class="storage-item">
+            <div class="storage-head">
+              <span>Images</span>
+              <span>51%</span>
+            </div>
+            <div class="bar"><div class="fill fill2"></div></div>
+          </div>
+
+          <div class="storage-item">
+            <div class="storage-head">
+              <span>Backups</span>
+              <span>88%</span>
+            </div>
+            <div class="bar"><div class="fill fill3"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="glass-card library-card">
+      <div class="library-header">
+        <div>
+          <h2>Your Cloud Library</h2>
+          <p>Browse, download, and remove files from your storage</p>
+        </div>
+      </div>
+
+      <div id="files">
+        <div class="empty-state">No files loaded yet. Click “Refresh Library” to fetch your cloud files.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    let selectedFile = null;
+
+    const drop = document.getElementById("drop");
+    const fileInput = document.getElementById("file");
+    const bar = document.getElementById("bar");
+    const progressPercent = document.getElementById("progressPercent");
+    const selectedFileText = document.getElementById("selectedFileText");
+    const fileNameText = document.getElementById("fileNameText");
+    const filesDiv = document.getElementById("files");
+    const totalFiles = document.getElementById("totalFiles");
+
+    function setSelectedFile(file) {
+      selectedFile = file;
+      if (file) {
+        selectedFileText.textContent = "Selected: " + file.name;
+        fileNameText.textContent = file.name;
+      } else {
+        selectedFileText.textContent = "No file selected";
+        fileNameText.textContent = "Waiting for file selection...";
+      }
+    }
+
+    drop.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      drop.style.borderColor = "#67e8f9";
+      drop.style.transform = "translateY(-2px)";
+      drop.style.background = "linear-gradient(135deg, rgba(103,232,249,0.12), rgba(196,181,253,0.08))";
+    });
+
+    drop.addEventListener("dragleave", () => {
+      drop.style.borderColor = "rgba(255,255,255,0.35)";
+      drop.style.transform = "translateY(0)";
+      drop.style.background = "linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03))";
+    });
+
+    drop.addEventListener("drop", (e) => {
+      e.preventDefault();
+      drop.style.borderColor = "rgba(255,255,255,0.35)";
+      drop.style.transform = "translateY(0)";
+      drop.style.background = "linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03))";
+      const file = e.dataTransfer.files[0];
+      if (file) {
+        setSelectedFile(file);
+      }
+    });
+
+    fileInput.addEventListener("change", function () {
+      const file = this.files[0];
+      if (file) {
+        setSelectedFile(file);
+      }
+    });
+
+    function getFileIcon(fileName) {
+      const name = fileName.toLowerCase();
+
+      if (name.endsWith(".pdf")) return "📕";
+      if (name.endsWith(".doc") || name.endsWith(".docx")) return "📘";
+      if (name.endsWith(".png") || name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".gif")) return "🖼";
+      if (name.endsWith(".zip") || name.endsWith(".rar")) return "🗜";
+      if (name.endsWith(".mp4") || name.endsWith(".mkv")) return "🎬";
+      if (name.endsWith(".mp3") || name.endsWith(".wav")) return "🎵";
+      if (name.endsWith(".html") || name.endsWith(".css") || name.endsWith(".js")) return "💻";
+      return "📁";
+    }
+
+    function upload() {
+      if (!selectedFile) {
+        alert("Please select a file first.");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", "http://localhost:3000/upload");
+
+      xhr.upload.onprogress = function (e) {
+        if (e.lengthComputable) {
+          const percent = Math.round((e.loaded / e.total) * 100);
+          bar.style.width = percent + "%";
+          progressPercent.textContent = percent + "%";
+        }
+      };
+
+      xhr.onload = function () {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          alert("✅ File uploaded successfully!");
+          bar.style.width = "100%";
+          progressPercent.textContent = "100%";
+          loadFiles();
+        } else {
+          alert("Upload failed.");
+        }
+      };
+
+      xhr.onerror = function () {
+        alert("Server connection error.");
+      };
+
+      xhr.send(formData);
+    }
+
+    async function loadFiles() {
+      try {
+        const res = await fetch("http://localhost:3000/files");
+        const data = await res.json();
+
+        filesDiv.innerHTML = "";
+        totalFiles.textContent = data.length;
+
+        if (!data.length) {
+          filesDiv.innerHTML = `<div class="empty-state">Your cloud library is empty right now.</div>`;
+          return;
+        }
+
+        data.forEach((f) => {
+          filesDiv.innerHTML += `
+            <div class="file-card">
+              <div class="file-icon">${getFileIcon(f.Key)}</div>
+              <div class="file-title">${f.Key}</div>
+              <div class="file-meta">Stored in cloud drive</div>
+              <div class="file-actions">
+                <button class="mini-btn download-btn" onclick="download('${f.Key}')">Download</button>
+                <button class="mini-btn delete-btn" onclick="deleteFile('${f.Key}')">Delete</button>
+              </div>
+            </div>
+          `;
+        });
+      } catch (error) {
+        filesDiv.innerHTML = `<div class="empty-state">Could not connect to your backend. Make sure your server is running on port 3000.</div>`;
+      }
+    }
+
+    async function download(key) {
+      const res = await fetch(`http://localhost:3000/download/${key}`);
+      const url = await res.text();
+      window.open(url);
+    }
+
+    async function deleteFile(key) {
+      await fetch(`http://localhost:3000/delete/${key}`, { method: "DELETE" });
+      loadFiles();
+    }
+
+    loadFiles();
+  </script>
 </body>
 </html>
+  
